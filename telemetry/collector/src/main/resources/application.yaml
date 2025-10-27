@@ -3,7 +3,7 @@ spring:
     bootstrap-server: "localhost:9092"
     producer:
       key-serializer: "org.apache.kafka.common.serialization.StringSerializer"
-      value-serializer: "ru.practicum.telemetry.serialization.AvroSerializer"
+      value-serializer: "ru.practicum.avro.serialization.AvroSerializer"
 
 topic:
   hub-event: "telemetry.hubs.v1"
