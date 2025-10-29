@@ -30,7 +30,7 @@ public class HubListener {
 
         HubEventHandler hubEventHandler = hubEventHandlers.get(key);
 
-        if(hubEventHandler == null) {
+        if (hubEventHandler == null) {
             return;
         }
 
