@@ -2,6 +2,8 @@ package ru.yandex.practicum.handler.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.entity.Scenario;
 import ru.yandex.practicum.handler.HubEventHandler;
 import ru.yandex.practicum.kafka.telemetry.event.HubEventAvro;
@@ -26,20 +28,16 @@ public class ScenarioRemovedHandler implements HubEventHandler {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void handle(HubEventAvro event) {
         ScenarioRemovedEventAvro scenarioRemovedEventAvro = (ScenarioRemovedEventAvro) event.getPayload();
         String name = scenarioRemovedEventAvro.getName();
 
-        Optional<Scenario> optScenario = scenarioRepository.findByHubIdAndName(event.getHubId(), name);
-        Scenario scenario;
-        if (optScenario.isEmpty()) {
-            return;
-        } else {
-            scenario = optScenario.get();
-        }
-
-        conditionRepository.deleteAll(scenario.getConditions().values());
-        actionRepository.deleteAll(scenario.getActions().values());
-        scenarioRepository.delete(scenario);
+        scenarioRepository.findByHubIdAndName(event.getHubId(), name)
+                .ifPresent(scenario -> {
+                    conditionRepository.deleteAll(scenario.getConditions().values());
+                    actionRepository.deleteAll(scenario.getActions().values());
+                    scenarioRepository.delete(scenario);
+                });
     }
 }

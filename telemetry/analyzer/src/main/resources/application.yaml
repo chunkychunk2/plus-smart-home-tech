@@ -2,6 +2,15 @@ topic:
   snapshot: "telemetry.snapshots.v1"
   hub-event: "telemetry.hubs.v1"
 
+kafka:
+  bootstrap-servers: localhost:9092
+
+analyzer:
+    snapshot:
+      group-id: analyzer.snapshot.group
+    hub:
+      group-id: analyzer.hub.group
+
 spring:
   datasource:
     driver-class-name: "org.postgresql.Driver"

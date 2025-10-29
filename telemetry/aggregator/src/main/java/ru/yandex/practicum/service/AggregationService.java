@@ -48,8 +48,15 @@ public class AggregationService {
                 .setData(event.getPayload())
                 .build();
 
-        sensorsSnapshotAvro.getSensorsState().put(event.getId(), stateAvro);
-        sensorsSnapshotAvro.setTimestamp(Instant.ofEpochSecond(event.getTimestamp().getEpochSecond(), event.getTimestamp().getNano()));
-        kafkaTemplate.send(snapshotTopic, sensorsSnapshotAvro.getHubId(), sensorsSnapshotAvro);
+        kafkaTemplate.send(snapshotTopic, sensorsSnapshotAvro.getHubId(), sensorsSnapshotAvro)
+                .whenComplete((result, ex) -> {
+                    if (ex == null) {
+                        log.debug("Successfully sent snapshot for hub {} to topic {}",
+                                sensorsSnapshotAvro.getHubId(), snapshotTopic);
+                    } else {
+                        log.error("Failed to send snapshot for hub {} to topic {}: {}",
+                                sensorsSnapshotAvro.getHubId(), snapshotTopic, ex.getMessage());
+                    }
+                });
     }
 }
