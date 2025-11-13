@@ -31,14 +31,14 @@ public class ProductController implements ShoppingStoreClient {
 
     @Override
     @PutMapping
-    public ProductDto addProduct(@RequestBody ProductDto productDto) {
+    public ProductDto addProduct(@Valid @RequestBody ProductDto productDto) {
         log.info("Adding product={}", productDto);
         return productService.addProduct(productDto);
     }
 
     @Override
     @PostMapping
-    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
+    public ProductDto updateProduct(@Valid @RequestBody ProductDto productDto) {
         log.info("Updating product id={}", productDto.getProductId());
         return productService.updateProduct(productDto);
     }
