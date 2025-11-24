@@ -1,0 +1,26 @@
+spring:
+  cloud:
+    config:
+      enabled: false
+      import-check:
+        enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
+
+eureka:
+  client:
+    enabled: false
+
+delivery:
+  base-price: 5.0
+  fragile-k: 0.2
+  weight-k: 0.3
+  volume-k: 0.2
+  address-k: 0.2
+  warehouse-address:
+    address1: 1
+    address2: 2
