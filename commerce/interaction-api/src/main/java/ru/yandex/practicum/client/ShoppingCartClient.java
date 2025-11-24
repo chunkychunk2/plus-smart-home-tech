@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@FeignClient(name = "shopping-cart", path = "api/v1/shopping-cart")
+@FeignClient(name = "shopping-cart-service", path = "api/v1/shopping-cart")
 public interface ShoppingCartClient {
     @GetMapping
     ShoppingCartDto getCart(@RequestParam @NotBlank String username) throws FeignException;

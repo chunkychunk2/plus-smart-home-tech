@@ -5,11 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.client.WarehouseClient;
 import ru.yandex.practicum.dto.cart.ShoppingCartDto;
-import ru.yandex.practicum.dto.warehouse.AddProductToWarehouseRequest;
-import ru.yandex.practicum.dto.warehouse.AddressDto;
-import ru.yandex.practicum.dto.warehouse.BookedProductsDto;
-import ru.yandex.practicum.dto.warehouse.NewProductInWarehouseRequest;
+import ru.yandex.practicum.dto.warehouse.*;
 import ru.yandex.practicum.service.WarehouseService;
+
+import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -44,5 +44,23 @@ public class WarehouseController implements WarehouseClient {
     public AddressDto getAddress() {
         log.info("Getting random request");
         return warehouseService.getAddress();
+    }
+
+    @Override
+    public void shipProductsToDelivery(ShippedToDeliveryRequest request) {
+        log.info("Shipping products: {}", request);
+        warehouseService.shipProducts(request);
+    }
+
+    @Override
+    public void returnProducts(Map<UUID, Integer> products) {
+        log.info("Returning products={}", products);
+        warehouseService.returnProducts(products);
+    }
+
+    @Override
+    public BookedProductsDto assembleOrder(AssemblyProductsForOrderRequest request) {
+        log.info("Assemble order, request={}", request);
+        return warehouseService.assembleOrder(request);
     }
 }
